@@ -316,9 +316,49 @@ def results_all_dev():
 
     download_folder = "download_folder"
     output_file_txt = "ranklist.txt"
-    abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
+    output_file_pdf = "ranklist.pdf"
 
-    print(abs_path_txt)
+    abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
+    abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
+
+    # from fpdf import FPDF
+    #
+    # pdf = FPDF('P', 'mm', 'A4')
+    # pdf.add_page()
+    # pdf.set_font('Courier', 'B', 12)
+    # pdf.cell(40, 10, 'Hello World!')
+    # pdf.cell(60, 10, 'Powered by FPDF.', 0, 1, 'C')
+    # pdf.output(abs_path_pdf, 'F')
+
+    from src.models.PDF import pdf_custom_class
+
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.add_page()
+
+    for startlist_name, startlist_result in ordered_data.items():
+        position = 1
+        table_for_pdf = []
+        for last_name, first_name, time in startlist_result:
+            pos = str(position)
+            table_for_pdf.append((pos, last_name, first_name, time))
+            position += 1
+
+        # print category name
+        pdf.set_font('Arial', 'B', 12)
+        st_name = startlist_name.replace(u'\u0308', '').encode()
+        pdf.cell(0, 10, "{}".format(st_name.decode("latin-1")), 0, 1, 'L')
+        #pdf.cell(0, 10, "{}".format(st_name), 0, 1, 'L')
+        pdf.set_font('Courier', 'B', 10)
+        # print header of the table
+        pdf.cell(0, 5, '{:10}{:20}{:20}{:20}'.format("#", "Nachname", "Vorname", "Zeit"), 0, 1, 'L')
+        pdf.set_font('Courier', '', 10)
+        for position, last_name, first_name, time in table_for_pdf:
+            pdf.cell(0, 5, '{:10}{:20}{:20}{:20}'.format(position, last_name, first_name, time), 0, 1, 'L')
+
+        pdf.add_page()
+
+    pdf.output(abs_path_pdf, 'F')
 
     with open(abs_path_txt, 'w') as f:
         for startlist_name, startlist_result in ordered_data.items():
@@ -331,8 +371,6 @@ def results_all_dev():
             table.set_cols_align(["c", "l", "l", "c"])
             table.set_cols_width([10, 23, 23, 15])
             table.header(["Position", "Nachname", "Vorname", "Zeit"])
-
-
 
             for last_name, first_name, time in startlist_result:
                 row = []
