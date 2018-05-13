@@ -318,6 +318,8 @@ def results_all_dev():
     output_file_txt = "ranklist.txt"
     abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
 
+    print(abs_path_txt)
+
     with open(abs_path_txt, 'w') as f:
         for startlist_name, startlist_result in ordered_data.items():
             position = 1
@@ -327,7 +329,7 @@ def results_all_dev():
 
             table = Texttable()
             table.set_cols_align(["c", "l", "l", "c"])
-            table.set_cols_width([10, 30, 30, 15])
+            table.set_cols_width([10, 23, 23, 15])
             table.header(["Position", "Nachname", "Vorname", "Zeit"])
 
 
