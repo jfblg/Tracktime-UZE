@@ -7,9 +7,13 @@ import src.models.startlist.startlist_processing as startlist_processing
 import src.models.startlist.startlist_alg as startlist_alg
 from sqlalchemy import Time
 
+
 import time
+import os
 import datetime
 import random
+import collections
+from texttable import Texttable
 
 from pprint import pprint as pp
 
@@ -297,7 +301,59 @@ def results_specific_startlist():
 @startlist_blueprint.route('/results_all', methods=['GET'])
 def results_all():
     data = startlist_processing.results_all()
-    return render_template('startlist/results_finished_startlists.html', data=data)
+    ordered_data = collections.OrderedDict(sorted(data.items()))
+    return render_template('startlist/results_finished_startlists.html', data=ordered_data)
+
+
+@startlist_blueprint.route('/results_all_dev', methods=['GET'])
+def results_all_dev():
+    data = startlist_processing.results_all()
+    ordered_data = collections.OrderedDict(sorted(data.items()))
+
+    # TODO sort startlists
+    # TODO save the table to a file
+    # TODO make the file available for download
+
+    download_folder = "download_folder"
+    output_file_txt = "ranklist.txt"
+    abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
+
+    with open(abs_path_txt, 'w') as f:
+        for startlist_name, startlist_result in ordered_data.items():
+            position = 1
+            f.write(startlist_name)
+            f.write("\n")
+            #print(startlist_name)
+
+            table = Texttable()
+            table.set_cols_align(["c", "l", "l", "c"])
+            table.set_cols_width([10, 30, 30, 15])
+            table.header(["Position", "Nachname", "Vorname", "Zeit"])
+
+
+
+            for last_name, first_name, time in startlist_result:
+                row = []
+                if time == "59:59.59":
+                    row.append("DNF")
+                else:
+                    row.append(position)
+                row.append(last_name)
+                row.append(first_name)
+                if time == "59:59.59":
+                    row.append("-")
+                else:
+                    row.append(time)
+                table.add_row(row)
+                position += 1
+
+            f.write(table.draw())
+            f.write("\n\n")
+            #print(table.draw())
+
+    return render_template('startlist/results_finished_startlists_dev.html',
+                           abs_path_txt=abs_path_txt,
+                           output_file_txt=output_file_txt)
 
 
 @startlist_blueprint.route('/findrunner', methods=['GET', 'POST'])
