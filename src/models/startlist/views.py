@@ -289,8 +289,6 @@ def results_specific_startlist():
     startlist_instance = StartlistNameModel.get_by_id(startlist_id)
     output_list = startlist_processing.result_list_generate(startlist_id)
 
-    print(output_list)
-
     return render_template('startlist/results_specific_startlist.html',
                            startlist_name=startlist_instance.name,
                            data=output_list)
@@ -331,7 +329,6 @@ def results_all_dev():
             table.header(["Position", "Nachname", "Vorname", "Zeit"])
 
             for row in startlist_result:
-                print(row)
                 table.add_row(row)
 
             f.write(table.draw())

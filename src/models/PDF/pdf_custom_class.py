@@ -42,7 +42,6 @@ class PDF(FPDF):
         self.cell(0, 5, '{:10}{:20}{:20}{:20}'.format("#", "Nachname", "Vorname", "Zeit"), 0, 1, 'L')
         self.set_font('Courier', '', 10)
         for position, last_name, first_name, time in records:
-            print(position, last_name, first_name, time)
             self.cell(0, 5, '{:10}{:20}{:20}{:20}'.format(position, last_name, first_name, time), 0, 1, 'L')
 
     def startlist_all_records(self, records):

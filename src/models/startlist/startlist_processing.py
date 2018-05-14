@@ -107,6 +107,7 @@ def result_list_generate(startlist_id):
     result_records = [result for result in StartlistModel.get_records_by_startlist_id_order_by_time(startlist_id)]
 
     output_list = []
+    position = 0
     for st, pt in result_records:
 
         # Note: 2 decimal digits are displayed for times in results
@@ -128,7 +129,12 @@ def result_list_generate(startlist_id):
         #     print("0")
         #     display_time = display_time[1:]
 
-        result_item = (pt.last_name, pt.first_name, display_time)
+        position += 1
+        if display_time == "59:59.59":
+            result_item = ("DNF", pt.last_name, pt.first_name, "-")
+        else:
+            result_item = (str(position), pt.last_name, pt.first_name, display_time)
+
         output_list.append(result_item)
 
     return output_list
@@ -139,20 +145,6 @@ def results_all():
     startlists_finished = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_measured_all()]
     for startlist_id, startlist_name in startlists_finished:
         results[startlist_name] = result_list_generate(startlist_id)
-
-    # add possition to each record - this makes printing of results easier
-    for cat_name, cat_result in results.items():
-        augmented_cat_result = []
-        position = 0
-        for record in cat_result:
-            position += 1
-            last_name, first_name, time = record
-            if time == "59:59.59":
-                augmented_cat_result.append(("DNF", last_name, first_name, "-"))
-            else:
-                augmented_cat_result.append((str(position), last_name, first_name, time))
-
-        results[cat_name] = augmented_cat_result
 
     return collections.OrderedDict(sorted(results.items()))
 
