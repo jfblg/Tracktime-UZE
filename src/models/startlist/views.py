@@ -300,8 +300,8 @@ def results_all():
     return render_template('startlist/results_finished_startlists.html', data=data)
 
 
-@startlist_blueprint.route('/results_all_dev', methods=['GET'])
-def results_all_dev():
+@startlist_blueprint.route('/results_all_export_files', methods=['GET'])
+def results_all_export_files():
     data = startlist_processing.results_all()
 
     download_folder = "download_folder"
@@ -321,7 +321,6 @@ def results_all_dev():
         for startlist_name, startlist_result in data.items():
             f.write(startlist_name)
             f.write("\n")
-            #print(startlist_name)
 
             table = Texttable()
             table.set_cols_align(["c", "l", "l", "c"])
@@ -335,7 +334,7 @@ def results_all_dev():
             f.write("\n\n")
             #print(table.draw())
 
-    return render_template('startlist/results_finished_startlists_dev.html',
+    return render_template('startlist/results_finished_export_files.html',
                            abs_path_txt=abs_path_txt,
                            output_file_txt=output_file_txt)
 
