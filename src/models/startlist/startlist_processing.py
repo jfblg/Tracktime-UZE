@@ -2,6 +2,7 @@ import json
 from pprint import pprint
 
 from collections import namedtuple
+import collections
 
 from sqlalchemy import exc
 from wtforms import Form, IntegerField, StringField, validators
@@ -139,7 +140,21 @@ def results_all():
     for startlist_id, startlist_name in startlists_finished:
         results[startlist_name] = result_list_generate(startlist_id)
 
-    return results
+    # add possition to each record - this makes printing of results easier
+    for cat_name, cat_result in results.items():
+        augmented_cat_result = []
+        position = 0
+        for record in cat_result:
+            position += 1
+            last_name, first_name, time = record
+            if time == "59:59.59":
+                augmented_cat_result.append(("DNF", last_name, first_name, "-"))
+            else:
+                augmented_cat_result.append((str(position), last_name, first_name, time))
+
+        results[cat_name] = augmented_cat_result
+
+    return collections.OrderedDict(sorted(results.items()))
 
 
 def get_startlist_instances():

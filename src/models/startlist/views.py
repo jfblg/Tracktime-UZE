@@ -1,3 +1,8 @@
+import os
+import datetime
+import random
+from texttable import Texttable
+
 from flask import Blueprint, request, render_template, session, redirect, url_for
 from src.models.categories.categories import CategoryModel, CategoryAddForm
 from src.models.startlist.startlist import StartlistModel, StartlistNameModel
@@ -5,17 +10,8 @@ from src.models.timedb.timedb import TimeDbModel
 from src.models.timedb.timydb import TimyDbModel
 import src.models.startlist.startlist_processing as startlist_processing
 import src.models.startlist.startlist_alg as startlist_alg
-from sqlalchemy import Time
+from src.models.PDF import pdf_custom_class
 
-
-import time
-import os
-import datetime
-import random
-import collections
-from texttable import Texttable
-
-from pprint import pprint as pp
 
 startlist_blueprint = Blueprint('startlist', __name__)
 
@@ -293,6 +289,8 @@ def results_specific_startlist():
     startlist_instance = StartlistNameModel.get_by_id(startlist_id)
     output_list = startlist_processing.result_list_generate(startlist_id)
 
+    print(output_list)
+
     return render_template('startlist/results_specific_startlist.html',
                            startlist_name=startlist_instance.name,
                            data=output_list)
@@ -301,18 +299,12 @@ def results_specific_startlist():
 @startlist_blueprint.route('/results_all', methods=['GET'])
 def results_all():
     data = startlist_processing.results_all()
-    ordered_data = collections.OrderedDict(sorted(data.items()))
-    return render_template('startlist/results_finished_startlists.html', data=ordered_data)
+    return render_template('startlist/results_finished_startlists.html', data=data)
 
 
 @startlist_blueprint.route('/results_all_dev', methods=['GET'])
 def results_all_dev():
     data = startlist_processing.results_all()
-    ordered_data = collections.OrderedDict(sorted(data.items()))
-
-    # TODO sort startlists
-    # TODO save the table to a file
-    # TODO make the file available for download
 
     download_folder = "download_folder"
     output_file_txt = "ranklist.txt"
@@ -321,48 +313,14 @@ def results_all_dev():
     abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
     abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
 
-    # from fpdf import FPDF
-    #
-    # pdf = FPDF('P', 'mm', 'A4')
-    # pdf.add_page()
-    # pdf.set_font('Courier', 'B', 12)
-    # pdf.cell(40, 10, 'Hello World!')
-    # pdf.cell(60, 10, 'Powered by FPDF.', 0, 1, 'C')
-    # pdf.output(abs_path_pdf, 'F')
-
-    from src.models.PDF import pdf_custom_class
-
+    # export to PDF file
     pdf = pdf_custom_class.PDF()
     pdf.alias_nb_pages()
-    pdf.add_page()
-
-    for startlist_name, startlist_result in ordered_data.items():
-        position = 1
-        table_for_pdf = []
-        for last_name, first_name, time in startlist_result:
-            pos = str(position)
-            table_for_pdf.append((pos, last_name, first_name, time))
-            position += 1
-
-        # print category name
-        pdf.set_font('Arial', 'B', 12)
-        st_name = startlist_name.replace(u'\u0308', '').encode()
-        pdf.cell(0, 10, "{}".format(st_name.decode("latin-1")), 0, 1, 'L')
-        #pdf.cell(0, 10, "{}".format(st_name), 0, 1, 'L')
-        pdf.set_font('Courier', 'B', 10)
-        # print header of the table
-        pdf.cell(0, 5, '{:10}{:20}{:20}{:20}'.format("#", "Nachname", "Vorname", "Zeit"), 0, 1, 'L')
-        pdf.set_font('Courier', '', 10)
-        for position, last_name, first_name, time in table_for_pdf:
-            pdf.cell(0, 5, '{:10}{:20}{:20}{:20}'.format(position, last_name, first_name, time), 0, 1, 'L')
-
-        pdf.add_page()
-
+    pdf.print_result_all_category(data)
     pdf.output(abs_path_pdf, 'F')
 
     with open(abs_path_txt, 'w') as f:
-        for startlist_name, startlist_result in ordered_data.items():
-            position = 1
+        for startlist_name, startlist_result in data.items():
             f.write(startlist_name)
             f.write("\n")
             #print(startlist_name)
@@ -372,20 +330,9 @@ def results_all_dev():
             table.set_cols_width([10, 23, 23, 15])
             table.header(["Position", "Nachname", "Vorname", "Zeit"])
 
-            for last_name, first_name, time in startlist_result:
-                row = []
-                if time == "59:59.59":
-                    row.append("DNF")
-                else:
-                    row.append(position)
-                row.append(last_name)
-                row.append(first_name)
-                if time == "59:59.59":
-                    row.append("-")
-                else:
-                    row.append(time)
+            for row in startlist_result:
+                print(row)
                 table.add_row(row)
-                position += 1
 
             f.write(table.draw())
             f.write("\n\n")
@@ -515,8 +462,6 @@ def generate_startlist_classfication():
         new_startlist.save_to_db()
 
     return redirect(url_for('.create_startlist_classification'))
-
-
 
 
 def time_random(number_of_random_times):
