@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +11,6 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='pic/briefcase.png') }}" type="image/x-icon"/>
 
     {% include 'dependencies_css.html' %}
-
 </head>
 <body>
 {% include 'dependencies_js.html' %}
@@ -58,8 +56,8 @@
                         <li><a href="{{ url_for('startlist.startlist_menu')}}">Show one</a></li>
                         <li><a href="{{ url_for('startlist.startlist')}}">Show all</a></li>
                         <li><a href="{{ url_for('startlist.startlist_menu_edit')}}">Edit one</a></li>
-                        <li><a href="{{ url_for('startlist.startlist')}}">Export all - Round 1</a></li>
-                        <li><a href="{{ url_for('startlist.startlist')}}">Export all - Final</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_export_round1')}}">Export all - Round 1</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_export_final')}}">Export all - Final</a></li>
                     </ul>
                 </li>
 
@@ -94,7 +92,6 @@
 
     </div>
 </nav>
-
 
 {% block content %}
 {% endblock %}

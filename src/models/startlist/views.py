@@ -19,8 +19,17 @@ startlist_blueprint = Blueprint('startlist', __name__)
 @startlist_blueprint.route('/', methods=['GET', 'POST'])
 def startlist():
     output, output_length = startlist_processing.get_startlist_all_frontend()
-
     return render_template('startlist/startlist_all.html', data=output, length=output_length)
+
+
+@startlist_blueprint.route('/startlist_export_round1', methods=['GET', 'POST'])
+def startlist_export_round1():
+    return render_template('startlist/startlist_export_round1.html')
+
+
+@startlist_blueprint.route('/startlist_export_final', methods=['GET', 'POST'])
+def startlist_export_final():
+    return render_template('startlist/startlist_export_final.html')
 
 
 @startlist_blueprint.route('/list_all', methods=['GET', 'POST'])
