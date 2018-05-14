@@ -347,6 +347,9 @@ def find_runner():
 
 @startlist_blueprint.route('/addtime', methods=['GET', 'POST'])
 def add_time():
+    """
+    Not used at the moment
+    """
     if request.method == 'POST':
         # TODO add time to DB
         try:
