@@ -144,6 +144,14 @@ def get_startlist_instances():
     return [startlist_def for startlist_def in StartlistNameModel.list_all()]
 
 
+def get_startlist_instances_round1():
+    return [startlist_def for startlist_def in StartlistNameModel.list_round1_all()]
+
+
+def get_startlist_instances_not_round1():
+    return [startlist_def for startlist_def in StartlistNameModel.list_not_round1_all()]
+
+
 def startlist_generate(startlist_id):
 
     records_list = []
@@ -313,6 +321,30 @@ def get_startlist_all_dev():
         output_length[item.name] = len(startlist_generate(item.id))
 
     return collections.OrderedDict(sorted(output.items())), output_length
+
+
+def get_startlist_all_round1():
+
+    # contains startlist records
+    output = {}
+
+    startlists = get_startlist_instances_round1()
+    for item in startlists:
+        output[item.name] = startlist_generate(item.id)
+
+    return collections.OrderedDict(sorted(output.items()))
+
+
+def get_startlist_all_final():
+
+    # contains startlist records
+    output = {}
+
+    startlists = get_startlist_instances_not_round1()
+    for item in startlists:
+        output[item.name] = startlist_generate(item.id)
+
+    return collections.OrderedDict(sorted(output.items()))
 
 
 def get_participants():

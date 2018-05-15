@@ -35,7 +35,7 @@ def startlist_export_round1():
     output_file_txt = "startlist_round1.txt"
     output_file_pdf = "startlist_round1.pdf"
 
-    output, _ = startlist_processing.get_startlist_all_frontend()
+    output = startlist_processing.get_startlist_all_round1()
 
     abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
     abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
@@ -71,6 +71,41 @@ def startlist_export_round1():
 
 @startlist_blueprint.route('/startlist_export_final', methods=['GET', 'POST'])
 def startlist_export_final():
+    download_folder = "download_folder"
+    output_file_txt = "startlist_final.txt"
+    output_file_pdf = "startlist_final.pdf"
+
+    output = startlist_processing.get_startlist_all_final()
+
+    abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
+    abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
+
+    from pprint import pprint
+    pprint(output)
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_startlist_all_category(output)
+    pdf.output(abs_path_pdf, 'F')
+
+    with open(abs_path_txt, 'w') as f:
+        for startlist_name, startlist_content in output.items():
+            f.write(startlist_name)
+            f.write("\n")
+
+            table = Texttable()
+            table.set_cols_align(["c", "c", "l", "l"])
+            table.set_cols_width([10, 10, 23, 23])
+            table.header(["Runde", "Position", "Nachname", "Vorname"])
+
+            for row in startlist_content:
+                _, last_name, first_name, round_num, pos_num = row
+                table.add_row([round_num, pos_num, last_name, first_name])
+
+            f.write(table.draw())
+            f.write("\n\n")
+
     return render_template('startlist/startlist_export_final.html')
 
 
