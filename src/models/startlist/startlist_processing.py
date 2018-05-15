@@ -205,6 +205,7 @@ def get_startlist_object_by_id(object_field, requested_id):
 
     return False
 
+
 def parse_request_form(request_form):
 
     result = dict()
@@ -286,7 +287,6 @@ def startlist_to_json(startlist_id):
     return json.dumps(result)
 
 
-
 def get_startlist_all_frontend():
 
     # contains startlist records
@@ -303,9 +303,9 @@ def get_startlist_all_frontend():
         output_length[item.name] = len(startlist_generate(item.id))
 
     return collections.OrderedDict(sorted(output.items())), output_length
-    #return output, output_length
 
-def get_startlist_all_dev():
+
+def get_startlist_round1_frontend():
 
     # contains startlist records
     output = {}
@@ -313,7 +313,25 @@ def get_startlist_all_dev():
     # contains length of the startlists - used for highlighting of a 1 athlete in a round.
     output_length = {}
 
-    startlists = get_startlist_instances()
+    startlists = get_startlist_instances_round1()
+    for item in startlists:
+        output[item.name] = startlist_generate(item.id)
+
+    for item in startlists:
+        output_length[item.name] = len(startlist_generate(item.id))
+
+    return collections.OrderedDict(sorted(output.items())), output_length
+
+
+def get_startlist_final_frontend():
+
+    # contains startlist records
+    output = {}
+
+    # contains length of the startlists - used for highlighting of a 1 athlete in a round.
+    output_length = {}
+
+    startlists = get_startlist_instances_not_round1()
     for item in startlists:
         output[item.name] = startlist_generate(item.id)
 

@@ -22,10 +22,16 @@ def startlist():
     return render_template('startlist/startlist_all.html', data=output, length=output_length)
 
 
-@startlist_blueprint.route('/startlist_all_dev', methods=['GET', 'POST'])
-def startlist_all_dev():
-    output, output_length = startlist_processing.get_startlist_all_dev()
-    return render_template('startlist/startlist_all_dev.html', data=output, length=output_length)
+@startlist_blueprint.route('/startlist_show_round1', methods=['GET', 'POST'])
+def startlist_show_round1():
+    output, output_length = startlist_processing.get_startlist_round1_frontend()
+    return render_template('startlist/startlist_all.html', data=output, length=output_length)
+
+
+@startlist_blueprint.route('/startlist_show_final', methods=['GET', 'POST'])
+def startlist_show_final():
+    output, output_length = startlist_processing.get_startlist_final_frontend()
+    return render_template('startlist/startlist_all.html', data=output, length=output_length)
 
 
 @startlist_blueprint.route('/startlist_export_round1', methods=['GET', 'POST'])
