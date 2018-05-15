@@ -47,7 +47,6 @@ def startlist_export_round1():
     abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
 
     from pprint import pprint
-    pprint(output)
 
     # export to PDF file
     pdf = pdf_custom_class.PDF()
@@ -87,7 +86,6 @@ def startlist_export_final():
     abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
 
     from pprint import pprint
-    pprint(output)
 
     # export to PDF file
     pdf = pdf_custom_class.PDF()
