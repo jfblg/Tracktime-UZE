@@ -113,6 +113,7 @@ def delete_participants():
     message = "Deleted all participants, startlists and results"
     return jsonify(result=message)
 
+
 @participants_blueprint.route('/_delete_all_data')
 def delete_all():
     """

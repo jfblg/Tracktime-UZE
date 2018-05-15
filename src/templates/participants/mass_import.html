@@ -11,7 +11,11 @@
             </h2>
         </div>
 
+
+
         <div class="col-sm-8">
+            {% block message %}
+            {% endblock %}
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -56,8 +60,7 @@
 
     </div>
     <!-- row -->
-    {% block message %}
-    {% endblock %}
+
 
 </div>
 <!-- form-size -->
