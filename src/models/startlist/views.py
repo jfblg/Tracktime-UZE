@@ -390,6 +390,18 @@ def results_all():
     return render_template('startlist/results_finished_startlists.html', data=data)
 
 
+@startlist_blueprint.route('/results_round1', methods=['GET'])
+def results_round1():
+    data = startlist_processing.results_round1()
+    return render_template('startlist/results_finished_startlists.html', data=data)
+
+
+@startlist_blueprint.route('/results_final', methods=['GET'])
+def results_final():
+    data = startlist_processing.results_final()
+    return render_template('startlist/results_finished_startlists.html', data=data)
+
+
 @startlist_blueprint.route('/results_all_export_files', methods=['GET'])
 def results_all_export_files():
     data = startlist_processing.results_all()

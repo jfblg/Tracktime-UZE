@@ -55,7 +55,26 @@ class StartlistNameModel(db.Model):
 
     @classmethod
     def list_measured_all(cls):
-        return db.session.query(cls).filter_by(measured_flag=True).order_by(StartlistNameModel.id).all()
+        return db.session.query(cls).\
+            filter_by(measured_flag=True).\
+            order_by(StartlistNameModel.id).\
+            all()
+
+    @classmethod
+    def list_measured_and_round1_all(cls):
+        return db.session.query(cls).\
+            filter_by(measured_flag=True).\
+            filter_by(round1_flag=True).\
+            order_by(StartlistNameModel.id).\
+            all()
+
+    @classmethod
+    def list_measured_and_not_final_all(cls):
+        return db.session.query(cls).\
+            filter_by(measured_flag=True).\
+            filter_by(round1_flag=False).\
+            order_by(StartlistNameModel.id).\
+            all()
 
     @classmethod
     def list_round1_all(cls):

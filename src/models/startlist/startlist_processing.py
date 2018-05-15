@@ -140,6 +140,24 @@ def results_all():
     return collections.OrderedDict(sorted(results.items()))
 
 
+def results_round1():
+    results = {}
+    startlists_finished = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_measured_and_round1_all()]
+    for startlist_id, startlist_name in startlists_finished:
+        results[startlist_name] = result_list_generate(startlist_id)
+
+    return collections.OrderedDict(sorted(results.items()))
+
+
+def results_final():
+    results = {}
+    startlists_finished = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_measured_and_not_final_all()]
+    for startlist_id, startlist_name in startlists_finished:
+        results[startlist_name] = result_list_generate(startlist_id)
+
+    return collections.OrderedDict(sorted(results.items()))
+
+
 def get_startlist_instances():
     return [startlist_def for startlist_def in StartlistNameModel.list_all()]
 

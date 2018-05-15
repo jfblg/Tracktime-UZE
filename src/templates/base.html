@@ -53,13 +53,13 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('startlist.create_startlist_category')}}">Create new - Round 1</a></li>
                         <li><a href="{{ url_for('startlist.create_startlist_classification')}}">Create new - Final</a></li>
-                        <li><a href="{{ url_for('startlist.startlist_menu')}}">Show one</a></li>
-                        <li><a href="{{ url_for('startlist.startlist_show_round1')}}">Show all - Round1</a></li>
-                        <li><a href="{{ url_for('startlist.startlist_show_final')}}">Show all - Final</a></li>
-                        <li><a href="{{ url_for('startlist.startlist')}}">Show all</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_menu')}}">Show - One</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_show_round1')}}">Show - Round1</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_show_final')}}">Show - Final</a></li>
+                        <li><a href="{{ url_for('startlist.startlist')}}">Show - All</a></li>
                         <li><a href="{{ url_for('startlist.startlist_menu_edit')}}">Edit one</a></li>
-                        <li><a href="{{ url_for('startlist.startlist_export_round1')}}">Export all - Round 1</a></li>
-                        <li><a href="{{ url_for('startlist.startlist_export_final')}}">Export all - Final</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_export_round1')}}">Export - Round 1</a></li>
+                        <li><a href="{{ url_for('startlist.startlist_export_final')}}">Export - Final</a></li>
                     </ul>
                 </li>
 
@@ -75,9 +75,11 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Results <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('startlist.results')}}">List one</a></li>
-                        <li><a href="{{ url_for('startlist.results_all')}}">List all</a></li>
-                        <li><a href="{{ url_for('startlist.results_all_export_files')}}">Export all results</a></li>
+                        <li><a href="{{ url_for('startlist.results')}}">Show one</a></li>
+                        <li><a href="{{ url_for('startlist.results_round1')}}">Show - Round1</a></li>
+                        <li><a href="{{ url_for('startlist.results_final')}}">Show - Final</a></li>
+                        <li><a href="{{ url_for('startlist.results_all')}}">Show - All</a></li>
+                        <li><a href="{{ url_for('startlist.results_all_export_files')}}">Export - All</a></li>
                     </ul>
                 </li>
 
