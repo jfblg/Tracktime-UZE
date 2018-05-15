@@ -1,7 +1,4 @@
 import json
-from pprint import pprint
-
-from collections import namedtuple
 import collections
 
 from sqlalchemy import exc
@@ -26,12 +23,6 @@ def process(startlist_id, category_id, startline_count):
 
     :param start_line_count: (int) - how many people can start at the same time
     :return: writes to a database
-
-    najdi categoriu podla ID
-    ziskaj jej instaciu alebo JSON
-    generuj startovaciu poziciu ludi v kategorii a uloz do databazy
-    zobraz tento list na web stranke
-
     """
     category = CategoryModel.find_by_id(category_id)
     found_whole_category = [] # all participants in a category

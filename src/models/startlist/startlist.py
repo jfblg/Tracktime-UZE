@@ -16,15 +16,17 @@ class StartlistNameModel(db.Model):
     startline_count = db.Column(db.Integer, nullable=False)
     startlist_rounds = db.Column(db.Integer, nullable=True)
     measured_flag = db.Column(db.Boolean, unique=False, default=False)
+    round1_flag = db.Column(db.Boolean, unique=False, default=False)
     # TODO add other details like date of creation, name of author, ...
 
     startlist = db.relationship("StartlistModel",
                                 back_populates='startlist_details',
                                 cascade="all, delete, delete-orphan")
 
-    def __init__(self, name, startline_count):
+    def __init__(self, name, startline_count, round1_flag=False):
         self.name = name
         self.startline_count = startline_count
+        self.round1_flag = round1_flag
 
     def json(self):
         return {
@@ -54,6 +56,20 @@ class StartlistNameModel(db.Model):
     @classmethod
     def list_measured_all(cls):
         return db.session.query(cls).filter_by(measured_flag=True).order_by(StartlistNameModel.id).all()
+
+    @classmethod
+    def list_round1_all(cls):
+        """
+        Used to list all startlists of round 1 runs
+        """
+        return db.session.query(cls).filter_by(round1_flag=True).order_by(StartlistNameModel.id).all()
+
+    @classmethod
+    def list_not_round1_all(cls):
+        """
+        Used to list all startlist of final runs
+        """
+        return db.session.query(cls).filter_by(round1_flag=False).order_by(StartlistNameModel.id).all()
 
     @classmethod
     def list_all(cls):

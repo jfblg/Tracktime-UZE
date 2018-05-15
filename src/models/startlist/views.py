@@ -443,7 +443,11 @@ def generate_startlist_category():
         # print(startlist_lines)
         # print(startlist_category)
 
-        new_startlist = StartlistNameModel(startlist_name, startlist_lines)
+        new_startlist = StartlistNameModel(
+            startlist_name,
+            startlist_lines,
+            round1_flag=True
+        )
         new_startlist.save_to_db()
 
         print("Startlist ID: {} - {} - {}".format(new_startlist.id, new_startlist.name, new_startlist.startline_count))
@@ -477,7 +481,11 @@ def generate_startlist_classfication():
         startlist_top_times = int(request.form['startlist_top_times'])
         startlist_lines = request.form['startlist_lines']
 
-        new_startlist = StartlistNameModel(startlist_name, startlist_lines)
+        new_startlist = StartlistNameModel(
+            startlist_name,
+            startlist_lines,
+            round1_flag=False
+        )
         new_startlist.save_to_db()
 
         # Note: Not used at the moment
