@@ -392,6 +392,25 @@ def rename_startlist_by_id(startlist_id, startlist_new_name):
     except:
         return False
 
+
+def delete_startlist_by_id(startlist_id):
+    try:
+        startlist_records = StartlistModel.get_by_startlist_id(startlist_id)
+        for r in startlist_records:
+            r.delete_from_db()
+
+        startlist_db_object = StartlistNameModel.get_by_id(startlist_id)
+        startlist_db_object.delete_from_db()
+
+        # find all instances of the startlistmodel in startlist table
+        # delete them one by one
+        # delete the instance in the startlist model
+
+        return True
+    except:
+        return False
+
+
 def get_participants():
     return ParticipantModel.list_all()
 

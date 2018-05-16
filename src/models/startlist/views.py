@@ -206,6 +206,31 @@ def startlist_one_rename_save():
                     startlist_name=new_startlist_name)
 
 
+@startlist_blueprint.route('/list_all_delete', methods=['GET', 'POST'])
+def startlist_menu_delete():
+    startlist_all = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_all()]
+    return render_template('startlist/startlist_one_menu_delete.html', data=startlist_all)
+
+
+@startlist_blueprint.route('/startlist_one_delete', methods=['POST'])
+def startlist_one_delete():
+    startlist_id = request.form['startlist_select']
+
+    startlist_name = StartlistNameModel.get_name_by_id(startlist_id)
+
+    deleted = startlist_processing.delete_startlist_by_id(startlist_id)
+
+    startlist_all = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_all()]
+
+    if deleted:
+        return render_template('startlist/startlist_one_menu_delete_success.html',
+                               data=startlist_all,
+                               startlist_name=startlist_name)
+    return render_template('startlist/startlist_one_menu_delete_fail.html',
+                           data=startlist_all,
+                           startlist_name=startlist_name)
+
+
 @startlist_blueprint.route('/next', methods=['GET', 'POST'])
 def next_round():
 

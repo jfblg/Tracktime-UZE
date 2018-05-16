@@ -215,8 +215,13 @@ class StartlistModel(db.Model):
 
     @classmethod
     def get_by_startlist_id(cls, startlist_id):
-        return db.session.query(StartlistModel).filter_by(id=startlist_id).one()
-
+        """
+        Used for deletition of a startlist
+        """
+        return db.session.query(StartlistModel).\
+            filter_by(startlist_id=startlist_id).\
+            order_by(StartlistModel.id).\
+            all()
 
     @classmethod
     def list_all(cls):
