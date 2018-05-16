@@ -383,6 +383,15 @@ def get_startlist_all_final():
     return collections.OrderedDict(sorted(output.items()))
 
 
+def rename_startlist_by_id(startlist_id, startlist_new_name):
+    try:
+        startlist_db_object = StartlistNameModel.get_by_id(startlist_id)
+        startlist_db_object.name = startlist_new_name
+        startlist_db_object.save_to_db()
+        return True
+    except:
+        return False
+
 def get_participants():
     return ParticipantModel.list_all()
 

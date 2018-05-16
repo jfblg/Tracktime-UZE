@@ -167,6 +167,45 @@ def startlist_one_edit_save():
     return redirect(url_for('startlist.startlist_menu_edit'))
 
 
+@startlist_blueprint.route('/list_all_rename', methods=['GET', 'POST'])
+def startlist_menu_rename():
+    startlist_all = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_all()]
+    return render_template('startlist/startlist_one_menu_rename.html', data=startlist_all)
+
+
+@startlist_blueprint.route('/startlist_one_rename', methods=['POST'])
+def startlist_one_rename():
+    startlist_id = request.form['startlist_select']
+
+    # for startlist_one_edit_save()
+    session['startlist_id'] = startlist_id
+
+    # get the startlist name
+    # render form to enter its new name
+
+    startlist_name = StartlistNameModel.get_name_by_id(startlist_id)
+
+    return render_template('startlist/startlist_one_rename.html', startlist_name=startlist_name)
+
+
+@startlist_blueprint.route('/startlist_one_rename_save', methods=['POST'])
+def startlist_one_rename_save():
+    startlist_id = session['startlist_id']
+    new_startlist_name = request.form['new_startlist_name']
+
+    renamed = startlist_processing.rename_startlist_by_id(startlist_id, new_startlist_name)
+
+    startlist_all = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_all()]
+
+    if renamed:
+        return render_template('startlist/startlist_one_menu_rename_success.html',
+                                data = startlist_all,
+                               startlist_name=new_startlist_name)
+    return render_template('startlist/startlist_one_menu_rename_fail.html',
+                    data=startlist_all,
+                    startlist_name=new_startlist_name)
+
+
 @startlist_blueprint.route('/next', methods=['GET', 'POST'])
 def next_round():
 

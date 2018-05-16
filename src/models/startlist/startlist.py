@@ -54,6 +54,10 @@ class StartlistNameModel(db.Model):
         return db.session.query(cls).filter_by(id=startlist_id).one()
 
     @classmethod
+    def get_name_by_id(cls, startlist_id):
+        return db.session.query(cls).filter_by(id=startlist_id).one().name
+
+    @classmethod
     def list_measured_all(cls):
         return db.session.query(cls).\
             filter_by(measured_flag=True).\

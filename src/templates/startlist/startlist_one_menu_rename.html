@@ -7,17 +7,20 @@
 
         <div class="row">
 
+            {% block message %}
+            {% endblock %}
+
             <div class="page-header">
-                <h2>Edit Startlists</h2>
+                <h2>Rename Startlists</h2>
             </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Select startlist to edit
+                    Select startlist to rename
                 </div>
                 <div class="panel-body">
 
-                    <form method="post" action="{{ url_for('startlist.startlist_one_edit') }}">
+                    <form method="post" action="{{ url_for('startlist.startlist_one_rename') }}">
 
                         {% for st_id, st_name in data %}
                         <input type="radio" name="startlist_select" id="{{ st_name }}" value="{{ st_id }}">
@@ -28,7 +31,7 @@
 
                         <button type="submit" class="btn btn-success">
                             <span class="fa fa-check"></span>
-                            Edit selected startlist
+                            Rename selected startlist
                         </button>
                     </form>
                 </div>
@@ -38,8 +41,6 @@
 
         </div>
         <!-- row -->
-        {% block message %}
-        {% endblock %}
 
     </div>
     <!-- form-size -->

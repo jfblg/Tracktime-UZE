@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="form-size">
+
+        <div class="row">
+
+            <div class="page-header">
+                <h2>Rename startlist: {{ startlist_name }}
+                </h2>
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Enter new startlist name
+                    </div>
+                    <div class="panel-body">
+
+                        <form method="post" action="{{ url_for('startlist.startlist_one_rename_save') }}">
+                            <div class="form-group">
+                                <label>New startlist name:</label>
+                                <input type="text" class="form-control" id="new_startlist_name"
+                                       name="new_startlist_name">
+                                <p class="help-block">Always enter a unique name.</p>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Rename
+                            </button>
+                            <a type="reset" class="btn btn-danger"
+                               href="{{ url_for('startlist.startlist_menu_rename') }}"><span
+                                    class="glyphicon glyphicon-erase"></span> Clear</a>
+                        </form>
+                    </div>
+                    <!-- panel body-->
+                </div>
+                <!-- panel -->
+            </div>
+        </div>
+        <!-- row -->
+
+    </div>
+    <!-- form-size -->
+
+</div>
+
+{% endblock %}
