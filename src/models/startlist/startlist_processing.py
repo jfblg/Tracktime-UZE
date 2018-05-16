@@ -38,7 +38,7 @@ def process(startlist_id, category_id, startline_count):
         try:
             start_record = StartlistModel(
                 startlist_id = startlist_id,
-                category_id=category.id,
+                # category_id=category.id,
                 participant_id=item.id,
                 start_position=next(start_position),
                 start_round=start_round
@@ -48,7 +48,7 @@ def process(startlist_id, category_id, startline_count):
             start_round += 1
             start_record = StartlistModel(
                 startlist_id=startlist_id,
-                category_id=category.id,
+                # category_id=category.id,
                 participant_id=item.id,
                 start_position=next(start_position),
                 start_round=start_round
@@ -69,7 +69,7 @@ def process_classification(startlist_id, start_records_instances, startline_coun
         try:
             start_record = StartlistModel(
                 startlist_id = startlist_id,
-                category_id=start_record_old.category_id,
+                # category_id=start_record_old.category_id,
                 participant_id=start_record_old.participant_id,
                 start_position=next(start_position),
                 start_round=start_round
@@ -79,7 +79,7 @@ def process_classification(startlist_id, start_records_instances, startline_coun
             start_round += 1
             start_record = StartlistModel(
                 startlist_id=startlist_id,
-                category_id=start_record_old.category_id,
+                # category_id=start_record_old.category_id,
                 participant_id=start_record_old.participant_id,
                 start_position=next(start_position),
                 start_round=start_round

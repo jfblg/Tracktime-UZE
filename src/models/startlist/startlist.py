@@ -114,7 +114,7 @@ class StartlistModel(db.Model):
     __tablename__ = "startlist"
     id = db.Column(db.Integer, primary_key=True)
     startlist_id = db.Column(db.Integer, db.ForeignKey('startlist_details.id'))
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    # category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     participant_id = db.Column(db.Integer, db.ForeignKey('participants.id'))
     start_position = db.Column(db.Integer)
     start_round = db.Column(db.Integer)
@@ -122,14 +122,16 @@ class StartlistModel(db.Model):
     # db.PrimaryKeyConstraint('startlist_id', 'category_id', 'participant_id', name='startlist_pk')
 
     startlist_details = db.relationship("StartlistNameModel", back_populates="startlist")
-    category = db.relationship("CategoryModel", back_populates="startlist")
+    #category = db.relationship("CategoryModel", back_populates="startlist")
     participants = db.relationship("ParticipantModel", back_populates="startlist")
 
-    __table_args__ = (db.UniqueConstraint('startlist_id','category_id', 'participant_id',),)
+    __table_args__ = (db.UniqueConstraint('startlist_id', 'participant_id', ),)
+    # __table_args__ = (db.UniqueConstraint('startlist_id','category_id', 'participant_id',),)
 
-    def __init__(self, startlist_id, category_id, participant_id, start_position, start_round):
+    # def __init__(self, startlist_id, participant_id, start_position, start_round):
+    def __init__(self, startlist_id, participant_id, start_position, start_round):
         self.startlist_id = startlist_id
-        self.category_id = category_id
+        #self.category_id = category_id
         self.participant_id = participant_id
         self.start_position = start_position
         self.start_round = start_round
@@ -139,7 +141,7 @@ class StartlistModel(db.Model):
     def json(self):
         return {
                 "startlist_id": self.startlist_id,
-                "category_id": self.category_id,
+                #"category_id": self.category_id,
                 "participant_id": self.participant_id,
                 "start_position": self.start_position,
                 "start_round": self.start_round,
@@ -159,21 +161,23 @@ class StartlistModel(db.Model):
 
 
     # WORKING - DO NOT TOUCH
-    @classmethod
-    def get_startlist_by_category(cls, category_id):
-        return db.session.query(StartlistModel).\
-                filter_by(category_id=category_id).\
-                order_by(StartlistModel.participant_id).\
-                all()
+    # is this one used?
+    # @classmethod
+    # def get_startlist_by_category(cls, category_id):
+    #     return db.session.query(StartlistModel).\
+    #             filter_by(category_id=category_id).\
+    #             order_by(StartlistModel.participant_id).\
+    #             all()
 
     # WORKING - DO NOT TOUCH
-    @classmethod
-    def get_startlist_by_category_with_names(cls, category_id):
-        return db.session.query(StartlistModel, ParticipantModel).\
-                filter(StartlistModel.participant_id == ParticipantModel.id).\
-                filter(StartlistModel.category_id == category_id).\
-                order_by(ParticipantModel.id).\
-                all()
+    # is this one used?
+    # @classmethod
+    # def get_startlist_by_category_with_names(cls, category_id):
+    #     return db.session.query(StartlistModel, ParticipantModel).\
+    #             filter(StartlistModel.participant_id == ParticipantModel.id).\
+    #             filter(StartlistModel.category_id == category_id).\
+    #             order_by(ParticipantModel.id).\
+    #             all()
 
 
     @classmethod
@@ -212,6 +216,12 @@ class StartlistModel(db.Model):
             order_by(StartlistModel.time_measured). \
             all()
 
+    @classmethod
+    def get_by_id(cls, startlist_id):
+        """
+        Used by startlist/view.next_round
+        """
+        return db.session.query(StartlistModel).filter_by(id=startlist_id).one()
 
     @classmethod
     def get_by_startlist_id(cls, startlist_id):

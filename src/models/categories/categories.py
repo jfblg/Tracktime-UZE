@@ -32,9 +32,9 @@ class CategoryModel(db.Model):
     year_end = db.Column(db.Integer, nullable=False)
     __table_args__ = (db.UniqueConstraint('category_name', 'gender', 'year_start', 'year_end'),)
 
-    startlist = db.relationship("StartlistModel",
-                             back_populates='category',
-                             cascade="all, delete, delete-orphan")
+    # startlist = db.relationship("StartlistModel",
+    #                          back_populates='category',
+    #                          cascade="all, delete, delete-orphan")
 
 
     # Foreign key definition. For the future
