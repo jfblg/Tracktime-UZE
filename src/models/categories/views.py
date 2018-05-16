@@ -27,3 +27,22 @@ def add():
         return render_template('categories/categories_add_success.html', form=form, data=input_data)
 
     return render_template('categories/categories_add.html', form=form)
+
+
+@categories_blueprint.route('/show_categories_to_delete', methods=['GET', 'POST'])
+def show_categories_to_delete():
+    return render_template('categories/categories_delete_menu.html',
+                           data=CategoryModel.list_categories_ordered())
+
+
+@categories_blueprint.route('/delete_selected_category', methods=['POST'])
+def delete_selected_category():
+    category_id = request.form['category_select']
+    category = CategoryModel.find_by_id(category_id)
+    try:
+        category.delete_from_db()
+        return render_template('categories/categories_delete_menu_success.html',
+                           data=CategoryModel.list_categories_ordered())
+    except:
+        return render_template('categories/categories_delete_menu_fail.html',
+                               data=CategoryModel.list_categories_ordered())

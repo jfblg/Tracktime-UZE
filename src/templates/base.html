@@ -42,7 +42,7 @@
                        aria-expanded="false">Categories <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('categories.add')}}">Add one</a></li>
-                        <li><a href=#>Delete one</a></li>
+                        <li><a href="{{ url_for('categories.show_categories_to_delete')}}">Delete one</a></li>
                         <li><a href="{{ url_for('categories.list')}}">List all</a></li>
                     </ul>
                 </li>
