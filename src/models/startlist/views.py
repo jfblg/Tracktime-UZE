@@ -256,12 +256,10 @@ def next_round():
 
             result_tuple = (startlist_id, results_possition[start_position])
             results_id.append(result_tuple)
-            print(result_tuple)
 
         for startlist_id, time_measured in results_id:
             # print("ST.ID: {}  --- TIME: {}".format(startlist_id, time_measured))
             found_runner = StartlistModel.get_by_id(startlist_id)
-            print(found_runner)
 
             # if an athlete doesn't finish, the DNF may be entered.
             # he will then be assigned max time possible to enter
