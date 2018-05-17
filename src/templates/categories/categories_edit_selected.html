@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="form-size">
+
+        <div class="row">
+
+            <div class="page-header">
+                <h2>Edit category</h2>
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Edit fields as you wish
+                    </div>
+                    <div class="panel-body">
+
+                        <form method="post" action="{{ url_for('categories.edit_selected_category') }}">
+
+                            <div class="form-group">
+
+                                <label>Category name</label>
+                                <input type="text" class="form-control" id="category_name_new"
+                                       name="category_name_new" value="{{ category_name }}">
+                                <p class="help-block">Always enter a unique name.</p>
+
+                                <label>
+                                    <b>Gender</b>
+                                </label>
+                                <select class="form-control" name="gender_new" id="gender_new">
+                                    {% if gender == "boy" %}
+                                    <option value="boy" selected="selected">Boy</option>
+                                    <option value="girl">Girl</option>
+                                    {% else %}
+                                    <option value="boy">Boy</option>
+                                    <option value="girl" selected="selected">Girl</option>
+                                    {% endif %}
+                                </select>
+
+                                <label>Start year</label>
+                                <input type="text" class="form-control" id="year_start_new"
+                                       name="year_start_new" value="{{ year_start }}">
+                                <p class="help-block">Must be equal or lower then end year.</p>
+                                add field
+
+                                <label>End year</label>
+                                <input type="text" class="form-control" id="year_end_new"
+                                       name="year_end_new" value="{{ year_end }}">
+                                <p class="help-block">Must be equal or higher than start year. Max value is actual year.</p>
+                            </div>
+
+                            <button type="submit" class="btn btn-success"><span class="fa fa-check"></span>Save changes</button>
+                        </form>
+                    </div>
+                    <!-- panel body-->
+                </div>
+                <!-- panel -->
+            </div>
+        </div>
+        <!-- row -->
+
+    </div>
+    <!-- form-size -->
+
+</div>
+
+{% endblock %}

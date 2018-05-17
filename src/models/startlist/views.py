@@ -132,6 +132,7 @@ def startlist_one():
                            data=output_list,
                            length=output_length)
 
+
 @startlist_blueprint.route('/list_all_edit', methods=['GET', 'POST'])
 def startlist_menu_edit():
     startlist_all = [(stlist.id, stlist.name) for stlist in StartlistNameModel.list_all()]
@@ -304,6 +305,7 @@ def get_times_from_db():
     print(position)
     print(times)
     return "Hello World"
+
 
 @startlist_blueprint.route('/wizard', methods=['GET', 'POST'])
 def wizard():

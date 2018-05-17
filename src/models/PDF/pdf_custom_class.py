@@ -2,6 +2,7 @@ import datetime
 import os
 from fpdf import FPDF
 
+from src.common.utils import time_funcs
 
 class PDF(FPDF):
     def header(self):
@@ -10,7 +11,7 @@ class PDF(FPDF):
         # Move to the right
         #self.cell(15)
         # Title
-        self.cell(0, 10, 'UZE Sprinter {}'.format(PDF.get_calendar_year()), 0, 0, 'L')
+        self.cell(0, 10, 'UZE Sprinter {}'.format(time_funcs.get_calendar_year()), 0, 0, 'L')
         # Logo
         self.image(PDF.get_logo_path(), 150, 8, 33)
         # Line break
@@ -98,8 +99,3 @@ class PDF(FPDF):
     def get_logo_path():
         logo_filename = "lcuzwil-logo.png"
         return os.path.abspath(os.path.join(os.getcwd(), "static", "pdf", logo_filename))
-
-    @staticmethod
-    def get_calendar_year():
-        now = datetime.datetime.now()
-        return now.year

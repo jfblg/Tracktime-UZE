@@ -2,6 +2,7 @@ from sqlalchemy import exc
 from wtforms import Form, IntegerField, StringField, validators
 
 from src.common.database import db
+from src.common.utils import time_funcs
 
 
 class CategoryAddForm(Form):
@@ -14,12 +15,14 @@ class CategoryAddForm(Form):
         validators.data_required(message="Required")])
 
     year_start = IntegerField('Start year', [
-        validators.NumberRange(min=1917, max=2099),
-        validators.data_required(message="Required. Please specify number between 1917 and 2017.")])
+        validators.NumberRange(min=1917, max=time_funcs.get_calendar_year()),
+        validators.data_required(message="Required. Please specify number between 1917 and {}."
+                                 .format(time_funcs.get_calendar_year()))])
 
     year_end = IntegerField('End year', [
-        validators.NumberRange(min=1917, max=2099),
-        validators.data_required(message="Required. Please specify number between 1917 and 2017.")])
+        validators.NumberRange(min=1917, max=time_funcs.get_calendar_year()),
+        validators.data_required(message="Required. Please specify number between 1917 and {}."
+                                 .format(time_funcs.get_calendar_year()))])
 
 
 class CategoryModel(db.Model):
@@ -90,5 +93,4 @@ class CategoryModel(db.Model):
         all_rows = cls.list_all()
         for row in all_rows:
             row.delete_from_db()
-
 

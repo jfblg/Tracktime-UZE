@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+
+    <div class="form-size">
+
+        <div class="row">
+
+            {% block message %}
+            {% endblock %}
+
+            <div class="page-header">
+                <h2>Category edit</h2>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Select category to edit
+                </div>
+                <div class="panel-body">
+
+                    <form method="post" action="{{ url_for('categories.show_category_to_edit') }}">
+
+                        {% for ct_id, ct_name in data %}
+                        <input type="radio" name="category_select" id="{{ ct_name }}" value="{{ ct_id }}">
+                        <label for="{{ ct_name }}">{{ ct_name }}</label><br>
+                        {% endfor %}
+
+                        <br>
+
+                        <button type="submit" class="btn btn-success">
+                            <span class="fa fa-check"></span>
+                            Edit selected category
+                        </button>
+                    </form>
+                </div>
+                <!-- panel body-->
+            </div>
+            <!-- panel -->
+
+        </div>
+        <!-- row -->
+
+
+    </div>
+    <!-- form-size -->
+</div>
+
+{% endblock %}
