@@ -75,6 +75,21 @@ class ParticipantModel(db.Model):
         except exc.IntegrityError as e:
             db.session().rollback()
 
+    @classmethod
+    def get_participants_ordered(cls):
+        return db.session.query(ParticipantModel.id,
+                                ParticipantModel.last_name,
+                                ParticipantModel.first_name,
+                                ParticipantModel.gender,
+                                ParticipantModel.year).\
+                order_by(ParticipantModel.last_name).\
+                order_by(ParticipantModel.first_name).\
+                all()
+
+    @classmethod
+    def get_by_id(cls, participant_id):
+        return db.session.query(cls).filter_by(id=participant_id).one()
+
     @staticmethod
     def drop_table():
         db.drop_all()

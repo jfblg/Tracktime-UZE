@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="form-size">
+
+        <div class="row">
+
+            <div class="page-header">
+                <h2>Edit athlete</h2>
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Edit fields as you wish
+                    </div>
+                    <div class="panel-body">
+
+                        <form method="post" action="{{ url_for('participants.edit_one_selected') }}">
+
+                            <div class="form-group">
+
+                                <label>Last name</label>
+                                <input type="text" class="form-control" id="last_name_new"
+                                       name="last_name_new" value="{{ last_name }}">
+                                <p class="help-block">Nachname</p>
+
+                                <label>First name</label>
+                                <input type="text" class="form-control" id="first_name_new"
+                                       name="first_name_new" value="{{ first_name }}">
+                                <p class="help-block">Vorname</p>
+
+                                <label>
+                                    <b>Gender</b>
+                                </label>
+                                <select class="form-control" name="gender_new" id="gender_new">
+                                    {% if gender == "boy" %}
+                                    <option value="boy" selected="selected">Knabe</option>
+                                    <option value="girl">Mädchen</option>
+                                    {% else %}
+                                    <option value="boy">Knabe</option>
+                                    <option value="girl" selected="selected">Mädchen</option>
+                                    {% endif %}
+                                </select>
+
+                                <label>Year</label>
+                                <input type="text" class="form-control" id="year_new"
+                                       name="year_new" value="{{ year }}">
+                                <p class="help-block">Jahrgang</p>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-success"><span class="fa fa-check"></span>Save changes</button>
+                        </form>
+                    </div>
+                    <!-- panel body-->
+                </div>
+                <!-- panel -->
+            </div>
+        </div>
+        <!-- row -->
+
+    </div>
+    <!-- form-size -->
+
+</div>
+
+{% endblock %}

@@ -38,9 +38,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Athletes <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('participants.add')}}">Add one</a></li>
-                        <li><a href="{{ url_for('participants.mass_import')}}">Add many</a></li>
-                        <li><a href="{{ url_for('participants.list')}}">List all</a></li>
+                        <li><a href="{{ url_for('participants.add')}}">Add - One</a></li>
+                        <li><a href="{{ url_for('participants.show_all_for_edit')}}">Edit - One</a></li>
+                        <li><a href="{{ url_for('participants.mass_import')}}">Import - from Xls(x)</a></li>
+                        <li><a href="{{ url_for('participants.list')}}">List - All</a></li>
                     </ul>
                 </li>
 

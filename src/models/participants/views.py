@@ -1,6 +1,7 @@
 import os
 from src.config import UPLOAD_FOLDER_NAME
-from flask import Blueprint, request, render_template, sessions, redirect, url_for, jsonify
+from src.common.utils import time_funcs
+from flask import Blueprint, request, render_template, session, redirect, url_for, jsonify
 from src.models.participants.participants import ParticipantModel, RunnerRegistrationForm
 from src.models.startlist.startlist import StartlistModel, StartlistNameModel
 from src.models.categories.categories import CategoryModel
@@ -37,6 +38,67 @@ def add():
                                form=form)
 
     return render_template('participants/signup.html', form=form)
+
+
+@participants_blueprint.route('/show_all_for_edit', methods=['GET', 'POST'])
+def show_all_for_edit():
+    # get ordered participants
+    return render_template('participants/participants_edit_menu.html',
+                           data=ParticipantModel.get_participants_ordered())
+
+
+@participants_blueprint.route('/show_one_selected', methods=['POST'])
+def show_one_selected():
+    # show details of a selected participant
+    # get id of selected athlete from post form
+    # show his details
+    participant_id = request.form['participant_select']
+    participant = ParticipantModel.get_by_id(participant_id)
+
+    # save category_id to session for the function edit_selected_category
+    session['participant_id_to_edit'] = participant_id
+
+    return render_template('participants/participants_edit_selected.html',
+                           last_name=participant.last_name,
+                           first_name=participant.first_name,
+                           gender=participant.gender,
+                           year=participant.year)
+
+
+@participants_blueprint.route('/edit_one_selected', methods=['POST'])
+def edit_one_selected():
+    participant_last_name_new = request.form['last_name_new']
+    participant_first_name_new = request.form['first_name_new']
+    participant_gender_new = request.form['gender_new']
+    participant_year_new_str = request.form['year_new']
+
+    # year must be covertable to int
+    try:
+        participant_year_new = int(participant_year_new_str)
+    except:
+        return render_template('participants/participants_edit_menu_fail.html',
+                               data=ParticipantModel.get_participants_ordered())
+
+    # end year must be lower the current year
+    year_now = time_funcs.get_calendar_year()
+    if participant_year_new > year_now:
+        return render_template('participants/participants_edit_menu_fail.html',
+                               data=ParticipantModel.get_participants_ordered())
+
+    participant = ParticipantModel.get_by_id(session['participant_id_to_edit'])
+    session['participant_id_to_edit'] = None
+
+    try:
+        participant.last_name = participant_last_name_new
+        participant.first_name = participant_first_name_new
+        participant.gender = participant_gender_new
+        participant.year = participant_year_new
+        participant.save_to_db()
+        return render_template('participants/participants_edit_menu_success.html',
+                               data=ParticipantModel.get_participants_ordered())
+    except:
+        return render_template('participants/participants_edit_menu_fail.html',
+                               data=ParticipantModel.get_participants_ordered())
 
 
 @participants_blueprint.route('/list', methods=['GET', 'POST'])

@@ -11,27 +11,27 @@
             {% endblock %}
 
             <div class="page-header">
-                <h2>Category edit</h2>
+                <h2>Athlete edit</h2>
             </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Select category to edit
+                    Select athlete to edit
                 </div>
                 <div class="panel-body">
 
-                    <form method="post" action="{{ url_for('categories.show_category_to_edit') }}">
+                    <form method="post" action="{{ url_for('participants.show_one_selected') }}">
 
-                        {% for ct_id, ct_name in data %}
-                        <input type="radio" name="category_select" id="{{ ct_id }}" value="{{ ct_id }}">
-                        <label for="{{ ct_id }}">{{ ct_name }}</label><br>
+                        {% for participant_id, last_name, first_name, gender, year in data %}
+                        <input type="radio" name="participant_select" id="{{ participant_id }}" value="{{ participant_id }}">
+                        <label for="{{ participant_id }}">{{ last_name }} {{ first_name }} - {{ gender }} - {{ year }}</label><br>
                         {% endfor %}
 
                         <br>
 
                         <button type="submit" class="btn btn-success">
                             <span class="fa fa-check"></span>
-                            Edit selected category
+                            Edit selected athlete
                         </button>
                     </form>
                 </div>
@@ -41,7 +41,6 @@
 
         </div>
         <!-- row -->
-
 
     </div>
     <!-- form-size -->
