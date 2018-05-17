@@ -551,8 +551,13 @@ def create_startlist_category():
 @startlist_blueprint.route('/startlist_created_cat', methods=['POST'])
 def generate_startlist_category():
     if request.method == 'POST':
-        print(request.form)
         startlist_name = request.form['startlist_name'].strip()
+
+        # startlist name must not be empty
+        # this condition can be improved to be more user friendly
+        if startlist_name == "":
+            return redirect(url_for('.create_startlist_category'))
+
         startlist_lines = request.form['startlist_lines']
         startlist_category = request.form['startlist_category']
 
@@ -595,6 +600,10 @@ def generate_startlist_classfication():
 
         startlist_finished_id = request.form['startlist_select']
         startlist_name = request.form['startlist_name'].strip()
+
+        if startlist_name == "":
+            return redirect(url_for('.create_startlist_classification'))
+
         startlist_top_times = int(request.form['startlist_top_times'])
         startlist_lines = request.form['startlist_lines']
 
