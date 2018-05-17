@@ -31,6 +31,13 @@ def create_table():
 def home():
     return render_template('home.html')
 
+@app.route('/documentation')
+def documentation():
+    """
+    This page show several schemas.
+    """
+    return render_template('documentation.html')
+
 from src.models.participants.views import participants_blueprint
 from src.models.categories.views import categories_blueprint
 from src.models.startlist.views import startlist_blueprint
