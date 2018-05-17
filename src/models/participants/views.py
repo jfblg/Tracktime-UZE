@@ -138,7 +138,8 @@ def mass_import():
 
         if file and MassImport.allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            filefolder = os.path.join(os.path.dirname(os.getcwd()), UPLOAD_FOLDER_NAME)
+            #filefolder = os.path.join(os.path.dirname(os.getcwd()), UPLOAD_FOLDER_NAME)
+            filefolder = os.path.join(os.getcwd(), UPLOAD_FOLDER_NAME)
             abs_path = os.path.join(filefolder, filename)
             file.save(abs_path)
 
