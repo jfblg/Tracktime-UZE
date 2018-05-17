@@ -11,8 +11,6 @@
             </h2>
         </div>
 
-
-
         <div class="col-sm-8">
             {% block message %}
             {% endblock %}
@@ -25,10 +23,10 @@
 
                     <h3>Mass Import Instructions</h3>
                     <ul>
-                        <li>File must be in CSV, XLS or XLSX format</li>
-                        <li>Columns must be in the following order: fistname, lastname, gender, year of birth</li>
-                        <li>Gender must be either <b>boy</b> or <b>girl</b>. No other values are accepted</li>
-                        <li>First line in the file is considered to be a column header and it's <b>not imported</b>.</li>
+                        <li>File must be in XLS or XLSX format</li>
+                        <li>First line in the file is considered to be a column header and it's <b>not imported</b> but used for detection of following fields.</li>
+                        <li>1. First Name, 2. Last Name, 3. Gender, 4. Year of birth</li>
+                        <li>All other field in the XLS fields are not relevant and therefore ignored.</li>
                     </ul>
 
                     <h4>Example:</h4>
