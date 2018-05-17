@@ -179,6 +179,11 @@ Scripts/
 # Shared
 pyvenv.cfg
 
-
-
 # End of https://www.gitignore.io/api/venv,python,pycharm
+
+src/static/
+
+# exclude all files in download_folder
+src/static/download_folder/*
+# exception - in order to have a folder in git
+!src/static/download_folder/.gitkeep

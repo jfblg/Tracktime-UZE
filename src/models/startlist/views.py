@@ -468,13 +468,14 @@ def results_final():
     return render_template('startlist/results_finished_startlists.html', data=data)
 
 
-@startlist_blueprint.route('/results_all_export_files', methods=['GET'])
-def results_all_export_files():
-    data = startlist_processing.results_all()
+@startlist_blueprint.route('/results_round1_export_files', methods=['GET'])
+def results_round1_export_files():
+
+    data = startlist_processing.results_round1()
 
     download_folder = "download_folder"
-    output_file_txt = "ranklist.txt"
-    output_file_pdf = "ranklist.pdf"
+    output_file_txt = "ranklist_round1.txt"
+    output_file_pdf = "ranklist_round1.pdf"
 
     abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
     abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
@@ -502,9 +503,82 @@ def results_all_export_files():
             f.write("\n\n")
             #print(table.draw())
 
-    return render_template('startlist/results_finished_export_files.html',
-                           abs_path_txt=abs_path_txt,
-                           output_file_txt=output_file_txt)
+    return render_template('startlist/results_finished_export_files_round1.html')
+
+
+@startlist_blueprint.route('/results_final_export_files', methods=['GET'])
+def results_final_export_files():
+
+    data = startlist_processing.results_final()
+
+    download_folder = "download_folder"
+    output_file_txt = "ranklist_final.txt"
+    output_file_pdf = "ranklist_final.pdf"
+
+    abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
+    abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_result_all_category(data)
+    pdf.output(abs_path_pdf, 'F')
+
+    with open(abs_path_txt, 'w') as f:
+        for startlist_name, startlist_result in data.items():
+            f.write(startlist_name)
+            f.write("\n")
+
+            table = Texttable()
+            table.set_cols_align(["c", "l", "l", "c"])
+            table.set_cols_width([10, 23, 23, 15])
+            table.header(["Position", "Nachname", "Vorname", "Zeit"])
+
+            for row in startlist_result:
+                table.add_row(row)
+
+            f.write(table.draw())
+            f.write("\n\n")
+            #print(table.draw())
+
+    return render_template('startlist/results_finished_export_files_final.html')
+
+
+@startlist_blueprint.route('/results_all_export_files', methods=['GET'])
+def results_all_export_files():
+    data = startlist_processing.results_all()
+
+    download_folder = "download_folder"
+    output_file_txt = "ranklist_all.txt"
+    output_file_pdf = "ranklist_all.pdf"
+
+    abs_path_txt = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_txt))
+    abs_path_pdf = os.path.abspath(os.path.join(os.getcwd(), "static", download_folder, output_file_pdf))
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_result_all_category(data)
+    pdf.output(abs_path_pdf, 'F')
+
+    with open(abs_path_txt, 'w') as f:
+        for startlist_name, startlist_result in data.items():
+            f.write(startlist_name)
+            f.write("\n")
+
+            table = Texttable()
+            table.set_cols_align(["c", "l", "l", "c"])
+            table.set_cols_width([10, 23, 23, 15])
+            table.header(["Position", "Nachname", "Vorname", "Zeit"])
+
+            for row in startlist_result:
+                table.add_row(row)
+
+            f.write(table.draw())
+            f.write("\n\n")
+            #print(table.draw())
+
+    return render_template('startlist/results_finished_export_files_all.html')
 
 
 @startlist_blueprint.route('/findrunner', methods=['GET', 'POST'])

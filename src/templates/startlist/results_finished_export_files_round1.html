@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+
+    <a href="{{ url_for('static', filename='download_folder/ranklist_round1.pdf') }}"> Rangliste - PDF Version </a>
+    <br>
+    <br>
+    <a href="{{ url_for('static', filename='download_folder/ranklist_round1.txt') }}"> Rangliste - TXT Version </a>
+    <br>
+    <br>
+    Bitte beachte:  Um sicherzustellen, dass du immer die nue generierte Rangliste vom Browser bekommst, mach "forced Refresh" dieser Seite.
+    Beim Chrome und macOS: halte die CTRL Taste und klicke an Refresh.
+</div>
+
+{% endblock %}
