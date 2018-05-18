@@ -17,7 +17,7 @@ class Database(object):
     Base = declarative_base()
 
     @staticmethod
-    def initialize(db_uri="sqlite:////Users/ferojanus/Repos/timy_database/db1.sqlite"):
+    def initialize(db_uri="sqlite:////Users/uze/uze-sprinter/TimyDB/db1.sqlite"):
         engine = create_engine(db_uri)
         Database.Base.metadata.bind = engine
         DBSession = sessionmaker()
