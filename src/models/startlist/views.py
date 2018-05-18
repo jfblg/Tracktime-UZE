@@ -3,7 +3,7 @@ import datetime
 import random
 from texttable import Texttable
 
-from flask import Blueprint, request, render_template, session, redirect, url_for
+from flask import Blueprint, request, render_template, session, redirect, url_for, make_response
 from src.models.categories.categories import CategoryModel, CategoryAddForm
 from src.models.startlist.startlist import StartlistModel, StartlistNameModel
 from src.models.timedb.timedb import TimeDbModel
@@ -74,6 +74,24 @@ def startlist_export_round1():
     return render_template('startlist/startlist_export_round1.html')
 
 
+@startlist_blueprint.route('/startlist_round1_export_to_pdf', methods=['GET'])
+def startlist_round1_export_to_pdf():
+
+    output = startlist_processing.get_startlist_all_round1()
+
+    output_file_pdf = "startlist_round1.pdf"
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_startlist_all_category(output)
+
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers.set('Content-Disposition', 'attachment', filename=output_file_pdf)
+    response.headers.set('Content-Type', 'application/pdf')
+    return response
+
+
 @startlist_blueprint.route('/startlist_export_final', methods=['GET', 'POST'])
 def startlist_export_final():
     download_folder = "download_folder"
@@ -111,6 +129,24 @@ def startlist_export_final():
             f.write("\n\n")
 
     return render_template('startlist/startlist_export_final.html')
+
+
+@startlist_blueprint.route('/startlist_final_export_to_pdf', methods=['GET'])
+def startlist_final_export_to_pdf():
+
+    output = startlist_processing.get_startlist_all_final()
+
+    output_file_pdf = "startlist_final.pdf"
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_startlist_all_category(output)
+
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers.set('Content-Disposition', 'attachment', filename=output_file_pdf)
+    response.headers.set('Content-Type', 'application/pdf')
+    return response
 
 
 @startlist_blueprint.route('/list_all', methods=['GET', 'POST'])
@@ -506,6 +542,24 @@ def results_round1_export_files():
     return render_template('startlist/results_finished_export_files_round1.html')
 
 
+@startlist_blueprint.route('/results_round1_export_to_pdf', methods=['GET'])
+def results_round1_export_to_pdf():
+
+    data = startlist_processing.results_round1()
+
+    output_file_pdf = "ranklist_round1.pdf"
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_result_all_category(data)
+
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers.set('Content-Disposition', 'attachment', filename=output_file_pdf)
+    response.headers.set('Content-Type', 'application/pdf')
+    return response
+
+
 @startlist_blueprint.route('/results_final_export_files', methods=['GET'])
 def results_final_export_files():
 
@@ -544,6 +598,24 @@ def results_final_export_files():
     return render_template('startlist/results_finished_export_files_final.html')
 
 
+@startlist_blueprint.route('/results_final_export_to_pdf', methods=['GET'])
+def results_final_export_to_pdf():
+
+    data = startlist_processing.results_final()
+
+    output_file_pdf = "ranklist_final.pdf"
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_result_all_category(data)
+
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers.set('Content-Disposition', 'attachment', filename=output_file_pdf)
+    response.headers.set('Content-Type', 'application/pdf')
+    return response
+
+
 @startlist_blueprint.route('/results_all_export_files', methods=['GET'])
 def results_all_export_files():
     data = startlist_processing.results_all()
@@ -579,6 +651,24 @@ def results_all_export_files():
             #print(table.draw())
 
     return render_template('startlist/results_finished_export_files_all.html')
+
+
+@startlist_blueprint.route('/results_all_export_to_pdf', methods=['GET'])
+def results_all_export_to_pdf():
+
+    data = startlist_processing.results_all()
+
+    output_file_pdf = "ranklist_all.pdf"
+
+    # export to PDF file
+    pdf = pdf_custom_class.PDF()
+    pdf.alias_nb_pages()
+    pdf.print_result_all_category(data)
+
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers.set('Content-Disposition', 'attachment', filename=output_file_pdf)
+    response.headers.set('Content-Type', 'application/pdf')
+    return response
 
 
 @startlist_blueprint.route('/findrunner', methods=['GET', 'POST'])
